@@ -49,6 +49,10 @@ func (self *ClassFile) MajorVersion() uint16 {
 	return self.majorVersion
 }
 
+func (self *ClassFile) MinorVersion() uint16 {
+	return self.minorVersion
+}
+
 func (self *ClassFile) ClassName() string {
 	return self.constantPool.getClassName(self.thisClass)
 }

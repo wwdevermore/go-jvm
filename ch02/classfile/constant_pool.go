@@ -5,7 +5,7 @@ type ConstantPool []ConstantInfo
 func readConstantPool(reader *ClassReader) ConstantPool {
 	cpCount := int(reader.readUint16())
 	cp := make([]ConstantInfo, cpCount)
-	for i = 1; i < cpCount; i++ {
+	for i := 1; i < cpCount; i++ {
 		cp[i] = readConstantInfo(reader, cp)
 		switch cp[i].(type) {
 		case *ConstantLongInfo, *ConstantDoubleInfo:
@@ -25,7 +25,7 @@ func (self ConstantPool) getConstantInfo(index uint16) ConstantInfo {
 func (self ConstantPool) getNameAndType(index uint16) (string, string) {
 	ntInfo := self.getConstantInfo(index).(*ConstantNameAndTypeInfo)
 	name := self.getUtf8(ntInfo.nameIndex)
-	_type := self.getUtf8(ntInfo.descriptionIndex)
+	_type := self.getUtf8(ntInfo.descriptorIndex)
 	return name, _type
 }
 
@@ -49,6 +49,20 @@ func readConstantInfo(reader *ClassReader, cp ConstantPool) ConstantInfo {
 	c.readInfo(reader)
 	return c
 }
+
+const (
+	CONSTANT_Integer            = 3
+	CONSTANT_Float              = 4
+	CONSTANT_LONG               = 5
+	CONSTANT_Double             = 6
+	CONSTANT_Utf8               = 1
+	CONSTANT_String             = 8
+	CONSTANT_Class              = 7
+	CONSTANT_Fieldref           = 9
+	CONSTANT_Methodref          = 10
+	CONSTANT_InterfaceMethodref = 11
+	CONSTANT_NameAndType        = 12
+)
 
 func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 	switch tag {
@@ -74,12 +88,12 @@ func newConstantInfo(tag uint8, cp ConstantPool) ConstantInfo {
 		return &ConstantInterfaceMethodrefInfo{ConstantMemberrefInfo{cp: cp}}
 	case CONSTANT_NameAndType:
 		return &ConstantNameAndTypeInfo{}
-	case CONSTANT_MethodType:
-		return &ConstantMethodTypeInfo{}
-	case CONSTANT_MethodHandle:
-		return &ConstantMethodHandleInfo{}
-	case CONSTANT_InvokeDynamic:
-		return &ConstantInvokeDynamicInfo{}
+		/*	case CONSTANT_MethodType:
+				return &ConstantMethodTypeInfo{}
+			case CONSTANT_MethodHandle:
+				return &ConstantMethodHandleInfo{}
+			case CONSTANT_InvokeDynamic:
+				return &ConstantInvokeDynamicInfo{}*/
 	default:
 		panic("java.lang.ClassFormatError: constant pool tag!")
 	}

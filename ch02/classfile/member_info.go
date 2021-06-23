@@ -32,9 +32,9 @@ func (self *MemberInfo) Accessflags() uint16 {
 }
 
 func (self *MemberInfo) Name() string {
-	return self.cp.getUft8(self.nameIndex)
+	return self.cp.getUtf8(self.nameIndex)
 }
 
 func (self *MemberInfo) Descriptor() string {
-	return self.cp.getUft8(self.descriptorIndex)
+	return self.cp.getUtf8(self.descriptorIndex)
 }
