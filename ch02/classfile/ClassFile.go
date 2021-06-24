@@ -16,6 +16,18 @@ type ClassFile struct {
 	attributes   []AttributeInfo
 }
 
+func (self ClassFile) AccessFlags() uint16 {
+	return self.accessFlags
+}
+
+func (self ClassFile) ConstantPool() ConstantPool {
+	return self.constantPool
+}
+
+func (self ClassFile) Fields() []*MemberInfo {
+	return self.fields
+}
+
 func Parse(classData []byte) (cf *ClassFile, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -41,8 +53,8 @@ func (self *ClassFile) read(reader *ClassReader) {
 	self.superClass = reader.readUint16()
 	self.interfaces = reader.readUint16s()
 	self.fields = readMembers(reader, self.constantPool)
-	self.attributes = readAttributes(reader, self.constantPool)
 	self.methods = readMembers(reader, self.constantPool)
+	self.attributes = readAttributes(reader, self.constantPool)
 }
 
 func (self *ClassFile) MajorVersion() uint16 {
@@ -74,14 +86,14 @@ func (self *ClassFile) InterfaceNames() []string {
 
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {
 	magic := reader.readUint32()
-	if magic != 0xCAFFBABE {
+	if magic != 0xCAFEBABE {
 		panic("java.lang.ClassFormatError: magic!")
 	}
 }
 
 func (self *ClassFile) readAndCheckVersion(reader *ClassReader) {
-	self.majorVersion = reader.readUint16()
 	self.minorVersion = reader.readUint16()
+	self.majorVersion = reader.readUint16()
 	switch self.majorVersion {
 	case 45:
 		return

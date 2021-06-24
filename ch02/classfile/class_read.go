@@ -8,7 +8,7 @@ type ClassReader struct {
 
 func (self *ClassReader) readUint8() uint8 {
 	val := self.data[0]
-	self.data = self.data[:1]
+	self.data = self.data[1:]
 	return val
 }
 func (self *ClassReader) readUint16() uint16 {
