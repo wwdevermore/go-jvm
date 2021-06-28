@@ -15,7 +15,7 @@ func (self LocalVars) GetInt(index uint) int32 {
 	return self[index].num
 }
 
-func (self LocalVars) SetInt(val int32, index uint) {
+func (self LocalVars) SetInt(val int32, index int32) {
 	self[index].num = val
 }
 

@@ -2,50 +2,37 @@ package main
 
 import (
 	"fmt"
-	"jvm/ch02/classfile"
-	"jvm/ch02/classpath"
-	"strings"
+	"go-jvm/ch04/rtda"
 )
 
 func main() {
 	cmd := parseCmd()
-	if cmd.versionFlag {
-		fmt.Println("version 0.0.1")
-	} else if cmd.helpFlag || cmd.class == "" {
-		printUsage()
-	} else {
-		startJVM(cmd)
-	}
-
+	fmt.Println("version 0.0.1")
+	startJVM(cmd)
 }
 
 func startJVM(cmd *Cmd) {
-	fmt.Printf("classpath:%s class:%s args:%v\n", cmd.cpOption, cmd.class, cmd.args)
-	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
-	className := strings.Replace(cmd.class, ".", "/", -1)
-	cf := loadClass(className, cp)
-	fmt.Println(cmd.class)
-	printClassinfo(cf)
+	frame := rtda.NewFrame(100, 100)
+	testLocalVars(frame.LocalVars())
+	testOperandStack(frame.OperandStack())
 }
 
-func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile {
-	classData, _, err := cp.ReadClass(className)
-	if err != nil {
-		panic(err)
-	}
-	cf, err := classfile.Parse(classData)
-	if err != nil {
-		panic(err)
-	}
-	return cf
+func testLocalVars(localVars rtda.LocalVars) {
+	localVars.SetInt(111, 0)
+	localVars.SetInt(-123, 1)
+	localVars.SetLong(2, 2997924580)
+	localVars.SetLong(4, -2997924580)
+	localVars.SetFloat(6, 3.1415926)
+	localVars.SetDouble(7, 2.71826485845)
+	localVars.SetRef(9, nil)
+	println(localVars.GetInt(0))
+	println(localVars.GetInt(1))
+	println(localVars.GetLong(2))
+	println(localVars.GetFloat(6))
+	println(localVars.GetDouble(7))
+	println(localVars.GetRef(9))
 }
 
-func printClassinfo(cf *classfile.ClassFile) {
-	fmt.Printf("version: %v.%v\n", cf.MajorVersion(), cf.MinorVersion())
-	fmt.Printf("constant count: %v\n", len(cf.ConstantPool()))
-	fmt.Printf("access flags: 0x%X\n", cf.AccessFlags())
-	fmt.Printf("super class: %v\n", cf.SuperClassName())
-	for _, f := range cf.Fields() {
-		fmt.Printf("  %s\n", f.Name())
-	}
+func testOperandStack(operandStack *rtda.OperandStack) {
+
 }
