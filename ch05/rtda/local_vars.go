@@ -15,8 +15,8 @@ func (self LocalVars) GetInt(index uint) int32 {
 	return self[index].num
 }
 
-func (self LocalVars) SetInt(val int32, index int32) {
-	self[index].num = val
+func (self LocalVars) SetInt(val uint, index int32) {
+	self[index].num = int32(val)
 }
 
 func (self LocalVars) GetFloat(index uint) float32 {
