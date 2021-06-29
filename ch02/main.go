@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"jvm/ch02/classfile"
-	"jvm/ch02/classpath"
+	"go-jvm/ch02/classfile"
+	"go-jvm/ch02/classpath"
 	"strings"
 )
 

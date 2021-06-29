@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"jvm/ch05/rtda"
+	"go-jvm/ch05/rtda"
 )
 
 func main() {
@@ -34,5 +34,8 @@ func testLocalVars(localVars rtda.LocalVars) {
 }
 
 func testOperandStack(operandStack *rtda.OperandStack) {
-
+	operandStack.PushInt(11)
+	println(operandStack.PopInt())
+	operandStack.PushFloat(11.0983)
+	println(operandStack.PopFloat())
 }
