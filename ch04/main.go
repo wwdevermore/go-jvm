@@ -18,6 +18,7 @@ func startJVM(cmd *Cmd) {
 }
 
 func testLocalVars(localVars rtda.LocalVars) {
+	println("======testLocalVars======")
 	localVars.SetInt(111, 0)
 	localVars.SetInt(-123, 1)
 	localVars.SetLong(2, 2997924580)
@@ -34,5 +35,7 @@ func testLocalVars(localVars rtda.LocalVars) {
 }
 
 func testOperandStack(operandStack *rtda.OperandStack) {
-
+	println("======testOperandStack======")
+	operandStack.PushDouble(1.33)
+	println(operandStack.PopDouble())
 }

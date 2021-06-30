@@ -32,7 +32,7 @@ func (self *OperandStack) PushFloat(val float32) {
 	self.size--
 }
 
-func (self *OperandStack) PopFloat(index int32) float32 {
+func (self *OperandStack) PopFloat() float32 {
 	self.size--
 	return math.Float32frombits(uint32(self.slots[self.size].num))
 }
