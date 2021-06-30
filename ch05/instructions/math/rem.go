@@ -46,8 +46,8 @@ func (self *LREM) Execute(frame *rtda.Frame) {
 
 func (self *FREM) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
-	val1 := stack.PopFloat()
-	val2 := stack.PopFloat()
+	val1 := float64(stack.PopFloat())
+	val2 := float64(stack.PopFloat())
 	result := math.Mod(val1, val2)
 	stack.PushFloat(float32(result))
 }
@@ -57,5 +57,5 @@ func (self *DREM) Execute(frame *rtda.Frame) {
 	val1 := stack.PopDouble()
 	val2 := stack.PopDouble()
 	result := math.Mod(val1, val2)
-	stack.PushFloat(result)
+	stack.PushDouble(result)
 }

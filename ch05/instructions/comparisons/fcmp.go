@@ -1,4 +1,4 @@
-package compare
+package comparisons
 
 import (
 	"go-jvm/ch04/rtda"
