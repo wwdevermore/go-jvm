@@ -22,20 +22,20 @@ func (self *BranchInstruction) FetchOperands(reader *BytecodeReader) {
 }
 
 type Index8Instruction struct {
-	Index int8
+	Index uint
 }
 
 func (self *Index8Instruction) FetchOperands(reader *BytecodeReader) {
-	self.Index = int8(reader.ReadInt8())
+	self.Index = uint(reader.ReadInt8())
 }
 
 //有一些指令需要访问运行时常量池，常量池索引由两字节操
 //作数给出。把这类指令抽象成Index16Instruction结构体，用Index字
 //段表示常量池索引。
 type Index16Instruction struct {
-	Index int16
+	Index uint
 }
 
 func (self *Index16Instruction) FetchOperands(reader *BytecodeReader) {
-	self.Index = int16(reader.ReadInt16())
+	self.Index = uint(reader.ReadInt16())
 }

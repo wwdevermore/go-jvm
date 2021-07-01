@@ -6,7 +6,7 @@ import (
 )
 
 type DSTORE struct {
-	base.Index8Instruction
+	base.Index16Instruction
 }
 type DSTORE_0 struct {
 	base.NoOperandsInstruction
@@ -22,8 +22,8 @@ type DSTORE_3 struct {
 }
 
 func _dstore(frame *rtda.Frame, index uint) {
-	val := frame.OperandStack().PopInt()
-	frame.LocalVars().SetInt(index, val)
+	val := frame.OperandStack().PopDouble()
+	frame.LocalVars().SetDouble(index, val)
 }
 
 func (self DSTORE) Execute(frame *rtda.Frame) {

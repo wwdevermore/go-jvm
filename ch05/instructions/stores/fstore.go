@@ -22,8 +22,8 @@ type FSTORE_3 struct {
 }
 
 func _fstore(frame *rtda.Frame, index uint) {
-	val := frame.OperandStack().PopInt()
-	frame.LocalVars().SetInt(index, val)
+	val := frame.OperandStack().PopFloat()
+	frame.LocalVars().SetFloat(index, val)
 }
 
 func (self FSTORE) Execute(frame *rtda.Frame) {
