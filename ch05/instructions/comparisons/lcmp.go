@@ -1,8 +1,8 @@
 package comparisons
 
 import (
-	"go-jvm/ch04/rtda"
 	"go-jvm/ch05/instructions/base"
+	"go-jvm/ch05/rtda"
 )
 
 type LCMP struct {
