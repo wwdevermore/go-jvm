@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
-	"go-jvm/ch05/rtda"
+	"go-jvm/ch05/classfile"
+	"go-jvm/ch05/classpath"
+	"go-jvm/ch05/interpreter"
+	"strings"
 )
 
 func main() {
@@ -12,12 +15,39 @@ func main() {
 }
 
 func startJVM(cmd *Cmd) {
-	frame := rtda.NewFrame(100, 100)
-	testLocalVars(frame.LocalVars())
-	testOperandStack(frame.OperandStack())
+	cp := classpath.Parse(cmd.XjreOption, cmd.cpOption)
+	className := strings.Replace(cmd.class, ".", "/", -1)
+	cf := loadClass(className, cp)
+	mainMethod := getMainMethod(cf)
+	if mainMethod != nil {
+		interpreter.Interpret(mainMethod)
+	} else {
+		fmt.Printf("Main method not found in class %s\n", cmd.class)
+	}
 }
 
-func testLocalVars(localVars rtda.LocalVars) {
+func loadClass(className string, cp *classpath.Classpath) *classfile.ClassFile {
+	classData, _, err := cp.ReadClass(className)
+	if err != nil {
+		panic(err)
+	}
+	cf, err := classfile.Parse(classData)
+	if err != err {
+		panic(err)
+	}
+	return cf
+}
+
+func getMainMethod(cf *classfile.ClassFile) *classfile.MemberInfo {
+	for _, m := range cf.Methods() {
+		if m.Name() == "main" && m.Descriptor() == "([Ljava/lang/String;)V" {
+			return m
+		}
+	}
+	return nil
+}
+
+/*func testLocalVars(localVars rtda.LocalVars) {
 	println("======testLocalVars======")
 	localVars.SetInt(0, 111)
 	localVars.SetInt(1, -123)
@@ -39,3 +69,4 @@ func testOperandStack(operandStack *rtda.OperandStack) {
 	operandStack.PushDouble(1.33)
 	println(operandStack.PopDouble())
 }
+*/

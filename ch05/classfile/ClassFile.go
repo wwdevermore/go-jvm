@@ -24,6 +24,10 @@ func (self ClassFile) ConstantPool() ConstantPool {
 	return self.constantPool
 }
 
+func (self ClassFile) Methods() []*MemberInfo {
+	return self.methods
+}
+
 func (self ClassFile) Fields() []*MemberInfo {
 	return self.fields
 }

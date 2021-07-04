@@ -6,25 +6,12 @@ import (
 	"go-jvm/ch05/rtda"
 )
 
-type IF_ICMPEQ struct {
-	base.BranchInstruction
-}
-
-type IF_ICMPNE struct {
-	base.BranchInstruction
-}
-type IF_ICMPLT struct {
-	base.BranchInstruction
-}
-type IF_ICMPLE struct {
-	base.BranchInstruction
-}
-type IF_ICMPGT struct {
-	base.BranchInstruction
-}
-type IF_ICMPGE struct {
-	base.BranchInstruction
-}
+type IF_ICMPEQ struct{ base.BranchInstruction }
+type IF_ICMPNE struct{ base.BranchInstruction }
+type IF_ICMPLT struct{ base.BranchInstruction }
+type IF_ICMPLE struct{ base.BranchInstruction }
+type IF_ICMPGT struct{ base.BranchInstruction }
+type IF_ICMPGE struct{ base.BranchInstruction }
 
 func (self *IF_ICMPEQ) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
