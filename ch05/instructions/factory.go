@@ -174,6 +174,11 @@ func NewInstruction(opcode byte) base.Instruction {
 	case 0x5f:
 		return swap
 
+	case 0x60:
+		return iadd
+	case 0x61:
+		return ladd
+
 	case 0x70:
 		return irem
 	case 0x71:
@@ -407,6 +412,9 @@ var (
 	if_acmpeq = &IF_ACMPEQ{}
 	if_acmpne = &IF_ACMPNE{}
 	go_to     = &GOTO{}
+
+	iadd = &IADD{}
+	ladd = &LADD{}
 
 	tableswitch  = &TABLE_SWITCH{}
 	lookupswitch = &LOOKUP_SWITCH{}
