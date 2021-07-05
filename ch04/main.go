@@ -19,8 +19,8 @@ func startJVM(cmd *Cmd) {
 
 func testLocalVars(localVars rtda.LocalVars) {
 	println("======testLocalVars======")
-	localVars.SetInt(111, 0)
-	localVars.SetInt(-123, 1)
+	localVars.SetInt(0, 111)
+	localVars.SetInt(1, 123)
 	localVars.SetLong(2, 2997924580)
 	localVars.SetLong(4, -2997924580)
 	localVars.SetFloat(6, 3.1415926)
