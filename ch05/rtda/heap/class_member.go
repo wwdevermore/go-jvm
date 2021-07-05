@@ -9,7 +9,7 @@ type ClassMember struct {
 	class       *Class
 }
 
-func (self ClassMember) copyMemberInfo(memberInfo *classfile.MemberInfo) {
+func (self *ClassMember) copyMemberInfo(memberInfo *classfile.MemberInfo) {
 	self.accessFlags = memberInfo.Accessflags()
 	self.name = memberInfo.Name()
 	self.descriptor = memberInfo.Descriptor()
