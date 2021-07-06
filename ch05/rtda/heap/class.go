@@ -49,3 +49,7 @@ func (self *Class) IsPrivate() bool {
 func (self *Class) InterfaceNames() []string {
 	return self.interfaceNames
 }
+
+func (self *Class) Fields() []*Field {
+	return self.fields
+}

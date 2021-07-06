@@ -87,5 +87,55 @@ func verify(class *Class) {
 }
 
 func prepare(class *Class) {
+	calculateStaticFieldSlotids(class)
+	calculateInstanceFieldSlotIds(class)
+	allocAndInitStaticVars(class)
+}
 
+func calculateInstanceFieldSlotIds(class *Class) {
+	slotId := uint(0)
+	if class.superClass != nil {
+		slotId = class.superClass.instanceSlotCount
+	}
+	for _, field := range class.fields {
+		if !field.IsStatic() {
+			field.slotId = slotId
+			slotId++
+			if field.IsLongOrDouble() {
+				slotId++
+			}
+		}
+	}
+}
+
+func calculateStaticFieldSlotids(class *Class) {
+	slotId := uint(0)
+	for _, field := range class.fields {
+		if field.IsStatic() {
+			field.slotId = slotId
+			slotId++
+			if field.IsLongOrDouble() {
+				slotId++
+			}
+		}
+	}
+}
+
+func allocAndInitStaticVars(class *Class) {
+	class.staticVars = newSlots(class.staticSlotCount)
+	for _, field := range class.fields {
+		if field.IsStatic() && field.IsFinal() {
+			initStaticFinalVar(class, field)
+		}
+	}
+}
+
+func initStaticFinalVar(class *Class, field *Field) {
+	vars := class.staticVars
+	cp := class.constantPool
+	cpIndex := field.ConstantAndIndex()
+	// switch field.descriptor{
+	// case "C", "B":
+	// 	vars := class.
+	// }
 }
