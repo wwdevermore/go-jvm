@@ -11,7 +11,7 @@ import (
 func Interpret(methodInfo *classfile.MemberInfo) {
 	codeAttr := methodInfo.CodeAttribute()
 	maxLocals := codeAttr.MaxLocals()
-	maxStack := codeAttr.MaxStack()
+	maxStack := codeAttr.MaxStacks()
 	bytecode := codeAttr.Code()
 
 	thread := rtda.NewThread()

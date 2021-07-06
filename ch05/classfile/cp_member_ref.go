@@ -22,3 +22,11 @@ func (self *ConstantMemberrefInfo) nameAndType() string {
 type ConstantFieldrefInfo struct{ ConstantMemberrefInfo }
 type ConstantMethodrefInfo struct{ ConstantMemberrefInfo }
 type ConstantInterfaceMethodrefInfo struct{ ConstantMemberrefInfo }
+
+func (self *ConstantMemberrefInfo) ClassName() string {
+	return self.cp.getClassName(self.classIndex)
+}
+
+func (self *ConstantMemberrefInfo) NameAndType() (string, string) {
+	return self.cp.getNameAndType(self.nameAndTypeIndex)
+}

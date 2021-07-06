@@ -7,7 +7,7 @@ type Class struct {
 	name              string
 	superClassName    string
 	interfaceNames    []string
-	constantPool      *classfile.ConstantPool
+	constantPool      *ConstantPool
 	fields            []*Field
 	methods           []*Method
 	loader            *ClassLoader
@@ -26,7 +26,7 @@ func newClass(cf *classfile.ClassFile) *Class {
 	class.interfaceNames = cf.InterfaceNames()
 	class.constantPool = newConstantPool(class, cf.ConstantPool())
 	class.fields = newField(class, cf.Fields())
-	class.methods = newMethods(class, cf.Methods())
+	class.methods = newMethod(class, cf.Methods())
 	return class
 }
 
@@ -44,4 +44,8 @@ func (self *Class) IsSynthetic() bool {
 
 func (self *Class) IsPrivate() bool {
 	return 0 != self.accessFlags&ACC_PRIVATE
+}
+
+func (self *Class) InterfaceNames() []string {
+	return self.interfaceNames
 }
