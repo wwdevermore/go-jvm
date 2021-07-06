@@ -9,6 +9,13 @@ type Slot struct {
 
 type Slots []Slot
 
+func newSlots(slotsCount uint) Slots{
+	if slotsCount > 0 {
+		return make([]Slot, slotsCount)
+	}
+	return nil
+}
+
 func (self Slots) GetInt(index uint) int32 {
 	return int32(self[index].num)
 }

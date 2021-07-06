@@ -7,6 +7,7 @@ type Method struct {
 	maxLocals uint
 	maxStack  uint
 	code      []byte
+	class *Class
 }
 
 func newMethod(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
@@ -26,4 +27,8 @@ func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
 		self.maxStack = codeAttr.MaxStacks()
 		self.code = codeAttr.Code()
 	}
+}
+
+func (self *Method) Class() *Class {
+	return self.class
 }

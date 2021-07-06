@@ -1,6 +1,9 @@
 package heap
 
-import "go-jvm/ch05/classfile"
+import (
+	"go-jvm/ch05/classfile"
+	"strings"
+)
 
 type Class struct {
 	accessFlags       uint16
@@ -15,7 +18,7 @@ type Class struct {
 	interfaces        []*Class
 	instanceSlotCount uint
 	staticSlotCount   uint
-	staticVars        *Slots
+	staticVars        Slots
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -30,26 +33,57 @@ func newClass(cf *classfile.ClassFile) *Class {
 	return class
 }
 
-func (self *Class) IsPublic() bool {
-	return 0 != self.accessFlags&ACC_PUBLIC
+func (receiver *Class) IsPublic() bool {
+	return 0 != receiver.accessFlags&ACC_PUBLIC
 }
 
-func (self *Class) IsFinal() bool {
-	return 0 != self.accessFlags&ACC_FINAL
+func (receiver *Class) IsFinal() bool {
+	return 0 != receiver.accessFlags&ACC_FINAL
 }
 
-func (self *Class) IsSynthetic() bool {
-	return 0 != self.accessFlags&ACC_SYNTHETIC
+func (receiver *Class) IsSynthetic() bool {
+	return 0 != receiver.accessFlags&ACC_SYNTHETIC
 }
 
-func (self *Class) IsPrivate() bool {
-	return 0 != self.accessFlags&ACC_PRIVATE
+func (receiver *Class) IsPrivate() bool {
+	return 0 != receiver.accessFlags&ACC_PRIVATE
 }
 
-func (self *Class) InterfaceNames() []string {
-	return self.interfaceNames
+func (receiver *Class) InterfaceNames() []string {
+	return receiver.interfaceNames
 }
 
-func (self *Class) Fields() []*Field {
-	return self.fields
+func (receiver *Class) Fields() []*Field {
+	return receiver.fields
+}
+
+func (receiver *Class) isAccessibleTo(other *Class) bool {
+	return receiver.IsPublic() || receiver.getPackageName() == other.getPackageName()
+}
+
+func (receiver *Class) getPackageName() string {
+	if i := strings.LastIndex(receiver.name, "/"); i >= 0 {
+		return receiver.name[:i]
+	}
+	return ""
+}
+
+func (receiver *Class) ConstantPool() *ConstantPool{
+	return receiver.constantPool
+}
+
+func (receiver *Class) IsInterface() bool {
+	return receiver.accessFlags == ACC_INTERFACE
+}
+
+func (receiver *Class) IsAbstract() bool {
+	return receiver.accessFlags == ACC_ABSTRACT
+}
+
+func (receiver *Class) NewObject() *Object {
+	return newObject(receiver)
+}
+
+func (receiver *Class) StaticVars() Slots {
+	return receiver.staticVars
 }

@@ -133,9 +133,22 @@ func allocAndInitStaticVars(class *Class) {
 func initStaticFinalVar(class *Class, field *Field) {
 	vars := class.staticVars
 	cp := class.constantPool
-	cpIndex := field.ConstantAndIndex()
-	// switch field.descriptor{
-	// case "C", "B":
-	// 	vars := class.
-	// }
+	cpIndex := field.ConstValueIndex()
+	slotId := field.SlotId()
+	switch field.descriptor{
+	case "C", "B", "Z", "S", "I":
+		val := cp.GetConstant(cpIndex).(int32)
+		vars.SetInt(slotId, val)
+	case "J":
+		val := cp.GetConstant(cpIndex).(int64)
+		vars.SetLong(slotId, val)
+	case "F":
+		val := cp.GetConstant(cpIndex).(float32)
+		vars.SetFloat(slotId, val)
+	case "D":
+		val := cp.GetConstant(cpIndex).(float64)
+		vars.SetDouble(slotId, val)
+	case "Ljava.lang.String":
+		panic("unsupport static final field descriptor type")
+	}
 }
