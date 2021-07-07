@@ -7,8 +7,10 @@ import (
 	. "go-jvm/ch05/instructions/constants"
 	. "go-jvm/ch05/instructions/control"
 	. "go-jvm/ch05/instructions/conversions"
+	. "go-jvm/ch05/instructions/extended"
 	. "go-jvm/ch05/instructions/loads"
 	. "go-jvm/ch05/instructions/math"
+	. "go-jvm/ch05/instructions/references"
 	. "go-jvm/ch05/instructions/stack"
 	. "go-jvm/ch05/instructions/stores"
 )
@@ -51,9 +53,12 @@ func NewInstruction(opcode byte) base.Instruction {
 		return bi_push
 	case 0x11:
 		return si_push
-	//case 0x12:
-	//case 0x12:
-	//case 0x12:
+	case 0x12:
+		return ldc
+	case 0x13:
+		return ldc_w
+	case 0x14:
+		return ldc2_w
 	case 0x15:
 		return iload
 	case 0x16:
@@ -277,6 +282,35 @@ func NewInstruction(opcode byte) base.Instruction {
 		return tableswitch
 	case 0xab:
 		return lookupswitch
+
+	case 0xb2:
+		return getstatic
+	case 0xb3:
+		return putstatic
+	case 0xb4:
+		return getfield
+	case 0xb5:
+		return putfield
+	case 0xb6:
+		return invoke_virtual
+	case 0xb7:
+		return invoke_special
+	case 0xbb:
+		return new
+
+	case 0xc0:
+		return checkcast
+	case 0xc1:
+		return instanceof
+	case 0xc4:
+		return wide
+	case 0xc6:
+		return ifnull
+	case 0xc7:
+		return ifnonnull
+	case 0xc8:
+		return goto_w
+
 	default:
 		panic(fmt.Errorf("java unsupport opcode: HEX:0x%x, DEC: %d", opcode, opcode))
 	}
@@ -418,4 +452,22 @@ var (
 
 	tableswitch  = &TABLE_SWITCH{}
 	lookupswitch = &LOOKUP_SWITCH{}
+	ldc          = &LDC{}
+	ldc_w        = &LDC_W{}
+	ldc2_w       = &LDC2_W{}
+	getstatic    = &GET_STATIC{}
+	putstatic    = &PUT_STATIC{}
+	getfield     = &GET_FIELD{}
+	putfield     = &PUT_FIELD{}
+	checkcast    = &CHECK_CAST{}
+	instanceof   = &INSTANCE_OF{}
+
+	ifnull    = &IFNULL{}
+	ifnonnull = &IFNONNULL{}
+	goto_w    = &GOTO_W{}
+	wide      = &WIDE{}
+	new       = &NEW{}
+
+	invoke_special = &INVOKE_SPECIAL{}
+	invoke_virtual = &INVOKE_VIRTUAL{}
 )

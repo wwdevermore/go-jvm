@@ -13,3 +13,11 @@ func newMethodRef(cp *ConstantPool, refInfo *classfile.ConstantMethodrefInfo) *M
 	methodRef.copyMemberInfo(&refInfo.ConstantMemberrefInfo)
 	return methodRef
 }
+
+func (receiver *MethodRef) Name() string {
+	return receiver.name
+}
+
+func (receiver *MemberRef) Descriptor() string {
+	return receiver.descriptor
+}

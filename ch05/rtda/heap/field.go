@@ -4,7 +4,7 @@ import "go-jvm/ch05/classfile"
 
 type Field struct {
 	ClassMember
-	slotId uint
+	slotId          uint
 	constValueIndex uint
 }
 
@@ -20,11 +20,11 @@ func newField(class *Class, cfFields []*classfile.MemberInfo) []*Field {
 }
 
 func (self *Field) IsStatic() bool {
-	return self.accessFlags == ACC_STATIC
+	return self.accessFlags&ACC_STATIC == ACC_STATIC
 }
 
 func (self *Field) IsFinal() bool {
-	return self.accessFlags == ACC_FINAL
+	return self.accessFlags&ACC_FINAL == ACC_FINAL
 }
 
 func (self *Field) IsLongOrDouble() bool {
@@ -45,8 +45,8 @@ func (self *Field) ConstValueIndex() uint {
 	return self.constValueIndex
 }
 
-func (self *Field) isAccessibleTo(other *Class) bool{
-	if self.IsPublic(){
+func (self *Field) isAccessibleTo(other *Class) bool {
+	if self.IsPublic() {
 		return true
 	}
 	c := self.class
@@ -60,13 +60,13 @@ func (self *Field) isAccessibleTo(other *Class) bool{
 }
 
 func (self *Field) IsPublic() bool {
-	return self.accessFlags == ACC_PUBLIC
+	return self.accessFlags&ACC_PUBLIC == ACC_PUBLIC
 }
 
 func (self *Field) IsProtected() bool {
-	return self.accessFlags == ACC_PROTECTED
+	return self.accessFlags&ACC_PROTECTED == ACC_PROTECTED
 }
 
 func (self *Field) IsPrivate() bool {
-	return self.accessFlags == ACC_PRIVATE
+	return self.accessFlags&ACC_PRIVATE == ACC_PRIVATE
 }

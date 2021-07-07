@@ -68,7 +68,7 @@ func (receiver *Class) getPackageName() string {
 	return ""
 }
 
-func (receiver *Class) ConstantPool() *ConstantPool{
+func (receiver *Class) ConstantPool() *ConstantPool {
 	return receiver.constantPool
 }
 
@@ -86,4 +86,17 @@ func (receiver *Class) NewObject() *Object {
 
 func (receiver *Class) StaticVars() Slots {
 	return receiver.staticVars
+}
+
+func (receiver *Class) GetStaticMethod(name, descriptor string) *Method {
+	return receiver.getStaticMethod(name, descriptor)
+}
+
+func (receiver *Class) getStaticMethod(name, descriptor string) *Method {
+	for _, method := range receiver.methods {
+		if method.name == name && method.descriptor == descriptor && method.IsStatic() {
+			return method
+		}
+	}
+	return nil
 }

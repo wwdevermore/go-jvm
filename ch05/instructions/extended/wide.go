@@ -5,10 +5,15 @@ import (
 	"go-jvm/ch05/instructions/loads"
 	"go-jvm/ch05/instructions/math"
 	"go-jvm/ch05/instructions/stores"
+	"go-jvm/ch05/rtda"
 )
 
 type WIDE struct {
 	modifiedInstruction base.Instruction
+}
+
+func (self *WIDE) Execute(frame *rtda.Frame) {
+
 }
 
 func (self *WIDE) FetchOperands(reader *base.BytecodeReader) {

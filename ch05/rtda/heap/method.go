@@ -7,7 +7,7 @@ type Method struct {
 	maxLocals uint
 	maxStack  uint
 	code      []byte
-	class *Class
+	class     *Class
 }
 
 func newMethod(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
@@ -29,6 +29,22 @@ func (self *Method) copyAttributes(cfMethod *classfile.MemberInfo) {
 	}
 }
 
+func (self *Method) MaxStack() uint {
+	return self.maxStack
+}
+
+func (self *Method) MaxLocals() uint {
+	return self.maxLocals
+}
+
 func (self *Method) Class() *Class {
 	return self.class
+}
+
+func (self *Method) Code() []byte {
+	return self.code
+}
+
+func (self *Method) IsStatic() bool {
+	return self.accessFlags&ACC_STATIC == ACC_STATIC
 }

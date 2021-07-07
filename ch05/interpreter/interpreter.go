@@ -2,24 +2,18 @@ package interpreter
 
 import (
 	"fmt"
-	"go-jvm/ch05/classfile"
 	"go-jvm/ch05/instructions"
 	"go-jvm/ch05/instructions/base"
 	"go-jvm/ch05/rtda"
+	"go-jvm/ch05/rtda/heap"
 )
 
-func Interpret(methodInfo *classfile.MemberInfo) {
-	codeAttr := methodInfo.CodeAttribute()
-	maxLocals := codeAttr.MaxLocals()
-	maxStack := codeAttr.MaxStacks()
-	bytecode := codeAttr.Code()
-
+func Interpret(method *heap.Method) {
 	thread := rtda.NewThread()
-
-	frame := thread.NewFrame(uint(maxLocals), uint(maxStack))
+	frame := thread.NewFrame(method)
 	thread.PushFrame(frame)
 	defer catchErr(frame)
-	loop(thread, bytecode)
+	loop(thread, method.Code())
 }
 
 func catchErr(frame *rtda.Frame) {
@@ -43,7 +37,7 @@ func loop(thread *rtda.Thread, bytecode []byte) {
 		inst.FetchOperands(reader)
 		frame.SetNextPC(reader.PC())
 		//execute
-		fmt.Printf("pc:%2d inst:%T %v\n", pc, inst, inst)
+		fmt.Printf("pc:%2d inst:%T constantPoolIndex: %v\n", pc, inst, inst)
 		inst.Execute(frame)
 	}
 }

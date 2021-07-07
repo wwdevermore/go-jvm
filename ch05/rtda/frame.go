@@ -8,37 +8,38 @@ type Frame struct {
 	operandStack *OperandStack
 	thread       *Thread
 	nextPC       int
-	method *heap.Method
+	method       *heap.Method
 }
 
-func newFrame(thread *Thread, maxLocals, maxStack uint) *Frame {
+func newFrame(thread *Thread, method *heap.Method) *Frame {
 	return &Frame{
 		thread:       thread,
-		localVars:    newLocalVars(maxLocals),
-		operandStack: newOperandStack(maxStack),
+		method:       method,
+		localVars:    newLocalVars(method.MaxLocals()),
+		operandStack: newOperandStack(method.MaxStack()),
 	}
 }
 
-func (self *Frame) LocalVars() LocalVars {
-	return self.localVars
+func (receiver *Frame) LocalVars() LocalVars {
+	return receiver.localVars
 }
 
-func (self *Frame) OperandStack() *OperandStack {
-	return self.operandStack
+func (receiver *Frame) OperandStack() *OperandStack {
+	return receiver.operandStack
 }
 
-func (self *Frame) SetNextPC(nextPC int) {
-	self.nextPC = nextPC
+func (receiver *Frame) SetNextPC(nextPC int) {
+	receiver.nextPC = nextPC
 }
 
-func (self *Frame) NextPC() int {
-	return self.nextPC
+func (receiver *Frame) NextPC() int {
+	return receiver.nextPC
 }
 
-func (self *Frame) Thread() *Thread {
-	return self.thread
+func (receiver *Frame) Thread() *Thread {
+	return receiver.thread
 }
 
-func (self *Frame) Method() *heap.Method{
-	return self.method
+func (receiver *Frame) Method() *heap.Method {
+	return receiver.method
 }

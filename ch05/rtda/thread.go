@@ -1,5 +1,7 @@
 package rtda
 
+import "go-jvm/ch05/rtda/heap"
+
 type Thread struct {
 	pc    int
 	stack *Stack
@@ -9,30 +11,30 @@ func NewThread() *Thread {
 	return &Thread{stack: newStack(1024)}
 }
 
-func (self *Thread) PC() int {
-	return self.pc
+func (receiver *Thread) PC() int {
+	return receiver.pc
 }
 
-func (self *Thread) SetPC(pc int) {
-	self.pc = pc
+func (receiver *Thread) SetPC(pc int) {
+	receiver.pc = pc
 }
 
-func (self *Thread) PushFrame(frame *Frame) {
-	self.stack.push(frame)
+func (receiver *Thread) PushFrame(frame *Frame) {
+	receiver.stack.push(frame)
 }
 
-func (self *Thread) PopFrame() *Frame {
-	return self.stack.pop()
+func (receiver *Thread) PopFrame() *Frame {
+	return receiver.stack.pop()
 }
 
-func (self *Thread) SetPc(pc int) {
-	self.pc = pc
+func (receiver *Thread) SetPc(pc int) {
+	receiver.pc = pc
 }
 
-func (self *Thread) CurrentFrame() *Frame {
-	return self.stack.top()
+func (receiver *Thread) CurrentFrame() *Frame {
+	return receiver.stack.top()
 }
 
-func (self *Thread) NewFrame(maxLocals, maxStack uint) *Frame {
-	return newFrame(self, maxLocals, maxStack)
+func (receiver *Thread) NewFrame(method *heap.Method) *Frame {
+	return newFrame(receiver, method)
 }

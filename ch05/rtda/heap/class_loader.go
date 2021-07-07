@@ -42,12 +42,12 @@ func (self *ClassLoader) readClass(name string) ([]byte, classpath.Entry) {
 	return data, entry
 }
 
-func (self *ClassLoader) defineClass(data []byte) *Class {
+func (receiver *ClassLoader) defineClass(data []byte) *Class {
 	class := parseClass(data)
-	class.loader = self
+	class.loader = receiver
 	resolveSuperClass(class)
 	resolveInterfaces(class)
-	self.classMap[class.name] = class
+	receiver.classMap[class.name] = class
 	return class
 }
 
@@ -60,7 +60,7 @@ func parseClass(data []byte) *Class {
 }
 
 func resolveSuperClass(class *Class) {
-	if class.superClassName != "java.lang.Object" {
+	if class.superClassName != "java/lang/Object" {
 		class.superClass = class.loader.LoadClass(class.superClassName)
 	}
 }
@@ -135,7 +135,7 @@ func initStaticFinalVar(class *Class, field *Field) {
 	cp := class.constantPool
 	cpIndex := field.ConstValueIndex()
 	slotId := field.SlotId()
-	switch field.descriptor{
+	switch field.descriptor {
 	case "C", "B", "Z", "S", "I":
 		val := cp.GetConstant(cpIndex).(int32)
 		vars.SetInt(slotId, val)
