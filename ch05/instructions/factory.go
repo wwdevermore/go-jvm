@@ -107,7 +107,7 @@ func NewInstruction(opcode byte) base.Instruction {
 		return aload_1
 	case 0x2c:
 		return aload_2
-	case 0x2e:
+	case 0x2d:
 		return aload_3
 	case 0x36:
 		return istore

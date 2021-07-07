@@ -21,3 +21,14 @@ func (receiver *MethodRef) Name() string {
 func (receiver *MemberRef) Descriptor() string {
 	return receiver.descriptor
 }
+
+func (self *MethodRef) ResolvedMethod() *Method{
+	if self.method == nil {
+		self.resolveMethodRef()
+	}
+	return self.method
+}
+
+func (receiver *MethodRef) resolveMethodRef() {
+	
+}

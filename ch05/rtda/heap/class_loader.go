@@ -87,7 +87,7 @@ func verify(class *Class) {
 }
 
 func prepare(class *Class) {
-	calculateStaticFieldSlotids(class)
+	calculateStaticFieldSlotIds(class)
 	calculateInstanceFieldSlotIds(class)
 	allocAndInitStaticVars(class)
 }
@@ -106,9 +106,10 @@ func calculateInstanceFieldSlotIds(class *Class) {
 			}
 		}
 	}
+	class.instanceSlotCount = slotId
 }
 
-func calculateStaticFieldSlotids(class *Class) {
+func calculateStaticFieldSlotIds(class *Class) {
 	slotId := uint(0)
 	for _, field := range class.fields {
 		if field.IsStatic() {
@@ -119,6 +120,7 @@ func calculateStaticFieldSlotids(class *Class) {
 			}
 		}
 	}
+	class.staticSlotCount = slotId
 }
 
 func allocAndInitStaticVars(class *Class) {
