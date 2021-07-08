@@ -35,6 +35,10 @@ func (receiver *Thread) CurrentFrame() *Frame {
 	return receiver.stack.top()
 }
 
+func (receiver *Thread) TopFrame() *Frame {
+	return receiver.stack.top()
+}
+
 func (receiver *Thread) NewFrame(method *heap.Method) *Frame {
 	return newFrame(receiver, method)
 }

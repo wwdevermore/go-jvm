@@ -5,7 +5,7 @@ import (
 	"go-jvm/ch05/rtda/heap"
 )
 
-func invokeMethod(invokeFrame *rtda.Frame, method *heap.Method) {
+func InvokeMethod(invokeFrame *rtda.Frame, method *heap.Method) {
 	thread := invokeFrame.Thread()
 	newFrame := thread.NewFrame(method)
 	thread.PushFrame(newFrame)
