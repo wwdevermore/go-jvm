@@ -14,28 +14,28 @@ func newFieldRef(cp *ConstantPool, refInfo *classfile.ConstantFieldrefInfo) *Fie
 	return fieldRef
 }
 
-func (self *FieldRef) ResolvedField() *Field {
-	if self.field == nil {
-		self.resolveFieldRef()
+func (receiver *FieldRef) ResolvedField() *Field {
+	if receiver.field == nil {
+		receiver.resolveFieldRef()
 	}
-	return self.field
+	return receiver.field
 }
 
-func (self *FieldRef) resolveFieldRef() {
-	d := self.cp.class
-	c := self.ResolveClass()
-	field := lookupField(c, self.name, self.descriptor)
+func (receiver *FieldRef) resolveFieldRef() {
+	d := receiver.cp.class
+	c := receiver.ResolveClass()
+	field := lookupField(c, receiver.name, receiver.descriptor)
 	if field == nil {
 		panic("java.lang.NoSuchFieldError")
 	}
 	if !field.isAccessibleTo(d) {
 		panic("java.lang.IllegalAccessError")
 	}
-	self.field = field
+	receiver.field = field
 }
 
 func lookupField(c *Class, name string, descriptor string) *Field {
-	for _, field := range c.fields{
+	for _, field := range c.fields {
 		if field.name == name && field.descriptor == descriptor {
 			return field
 		}

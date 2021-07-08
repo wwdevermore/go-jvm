@@ -22,13 +22,33 @@ func (receiver *MemberRef) Descriptor() string {
 	return receiver.descriptor
 }
 
-func (self *MethodRef) ResolvedMethod() *Method{
-	if self.method == nil {
-		self.resolveMethodRef()
+func (receiver *MethodRef) ResolvedMethod() *Method {
+	if receiver.method == nil {
+		receiver.resolveMethodRef()
 	}
-	return self.method
+	return receiver.method
 }
 
 func (receiver *MethodRef) resolveMethodRef() {
-	
+	d := receiver.cp.class
+	c := receiver.ResolveClass()
+	if c.IsInterface() {
+		panic("java.lang.IncompatiableClassChangeError")
+	}
+	method := lookupMethod(c, receiver.name, receiver.descriptor)
+	if method == nil {
+		panic("java.lang.NoSuchMethodError")
+	}
+	if !method.isAccessibleTo(d) {
+		panic("java.lang.IllegalAccessError")
+	}
+	receiver.method = method
+}
+
+func lookupMethod(class *Class, name string, descriptor string) *Method {
+	method := lookupMethodInClass(class, name, descriptor)
+	if method == nil {
+		method = lookupMethodInInterfaces(class.interfaces, name, descriptor)
+	}
+	return method
 }

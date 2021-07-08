@@ -6,19 +6,18 @@ type SymRef struct {
 	class     *Class
 }
 
-func (self *SymRef) ResolveClass() *Class{
-	if self.class == nil {
-		self.resolveClassRef()
+func (receiver *SymRef) ResolveClass() *Class {
+	if receiver.class == nil {
+		receiver.resolveClassRef()
 	}
-	return self.class
+	return receiver.class
 }
 
-func (self *SymRef) resolveClassRef() {
-	d := self.cp.class
-	c := d.loader.LoadClass(self.className)
+func (receiver *SymRef) resolveClassRef() {
+	d := receiver.cp.class
+	c := d.loader.LoadClass(receiver.className)
 	if !c.isAccessibleTo(d) {
 		panic("java.lang.IllegalAccessError")
 	}
-	self.class = c
+	receiver.class = c
 }
-

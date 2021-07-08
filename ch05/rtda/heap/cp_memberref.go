@@ -8,7 +8,7 @@ type MemberRef struct {
 	descriptor string
 }
 
-func (self *MemberRef) copyMemberInfo(refInfo *classfile.ConstantMemberrefInfo) {
-	self.className = refInfo.ClassName()
-	self.name, self.descriptor = refInfo.NameAndType()
+func (receiver *MemberRef) copyMemberInfo(refInfo *classfile.ConstantMemberrefInfo) {
+	receiver.className = refInfo.ClassName()
+	receiver.name, receiver.descriptor = refInfo.NameAndType()
 }
