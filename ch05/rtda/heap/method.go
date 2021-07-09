@@ -24,7 +24,7 @@ func newMethod(class *Class, cfMethods []*classfile.MemberInfo) []*Method {
 }
 
 func (self *Method) calcArgSlotCount() {
-	parsedDescriptor := parseMethodDescriptor()
+	parsedDescriptor := parseMethodDescriptor(self.descriptor)
 	for _, paramType := range parsedDescriptor.parameterTypes {
 		self.argSlotCount++
 		if paramType == "D" || paramType == "J" {
@@ -64,6 +64,10 @@ func (receiver *Method) ArgSlotCount() uint {
 	return receiver.argSlotCount
 }
 
+func (receiver *Method) IsAbstract() bool {
+	return receiver.accessFlags&ACC_ABSTRACT == ACC_ABSTRACT
+}
+
 func (receiver *Method) IsStatic() bool {
 	return receiver.accessFlags&ACC_STATIC == ACC_STATIC
 }
@@ -86,10 +90,10 @@ func (receiver *Method) isAccessibleTo(other *Class) bool {
 	}
 	c := receiver.class
 	if receiver.IsProtected() {
-		return c == other || other.isSubClassOf(c) || c.getPackageName() == other.getPackageName()
+		return c == other || other.isSubClassOf(c) || c.GetPackageName() == other.GetPackageName()
 	}
 	if !receiver.IsPrivate() {
-		return c.getPackageName() == other.getPackageName()
+		return c.GetPackageName() == other.GetPackageName()
 	}
 	return other == c
 }

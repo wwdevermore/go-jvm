@@ -58,10 +58,10 @@ func (receiver *Class) Fields() []*Field {
 }
 
 func (receiver *Class) isAccessibleTo(other *Class) bool {
-	return receiver.IsPublic() || receiver.getPackageName() == other.getPackageName()
+	return receiver.IsPublic() || receiver.GetPackageName() == other.GetPackageName()
 }
 
-func (receiver *Class) getPackageName() string {
+func (receiver *Class) GetPackageName() string {
 	if i := strings.LastIndex(receiver.name, "/"); i >= 0 {
 		return receiver.name[:i]
 	}
@@ -86,6 +86,19 @@ func (receiver *Class) NewObject() *Object {
 
 func (receiver *Class) StaticVars() Slots {
 	return receiver.staticVars
+}
+
+func (receiver *Class) IsSuperClassOf(other *Class) bool {
+	return receiver.superClass == other
+}
+
+func (receiver *Class) IsImplementsOf(other *Class) bool {
+	for _, iface := range receiver.interfaces {
+		if iface == other {
+			return true
+		}
+	}
+	return false
 }
 
 func (receiver *Class) GetStaticMethod(name, descriptor string) *Method {
