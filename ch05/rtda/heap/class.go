@@ -101,6 +101,10 @@ func (receiver *Class) IsImplementsOf(other *Class) bool {
 	return false
 }
 
+func (receiver *Class) Name() string {
+	return receiver.name
+}
+
 func (receiver *Class) GetStaticMethod(name, descriptor string) *Method {
 	return receiver.getStaticMethod(name, descriptor)
 }

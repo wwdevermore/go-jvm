@@ -42,3 +42,7 @@ func (receiver *Thread) TopFrame() *Frame {
 func (receiver *Thread) NewFrame(method *heap.Method) *Frame {
 	return newFrame(receiver, method)
 }
+
+func (receiver *Thread) IsStackEmpty() bool {
+	return receiver.stack.isEmpty()
+}

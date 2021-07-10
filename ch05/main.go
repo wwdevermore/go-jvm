@@ -21,7 +21,7 @@ func startJVM(cmd *Cmd) {
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetStaticMethod("main", "([Ljava/lang/String;)V")
 	if mainMethod != nil {
-		interpreter.Interpret(mainMethod)
+		interpreter.Interpret(mainMethod, true)
 	} else {
 		fmt.Printf("Main method not found in class %s\n", cmd.class)
 	}
