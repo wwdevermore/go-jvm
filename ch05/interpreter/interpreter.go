@@ -32,7 +32,7 @@ func loop(thread *rtda.Thread, logInst bool) {
 			logInstructions(frame, inst)
 		}
 		//execute
-		fmt.Printf("pc:%2d inst:%T constantPoolIndex: %v\n", pc, inst, inst)
+		//fmt.Printf("pc:%2d inst:%T constantPoolIndex: %v\n", pc, inst, inst)
 		inst.Execute(frame)
 		if thread.IsStackEmpty() {
 			break
@@ -52,7 +52,7 @@ func logFrames(thread *rtda.Thread) {
 		frame := thread.PopFrame()
 		method := frame.Method()
 		className := method.Class().Name()
-		fmt.Printf(">> pc:%4d %v.%v%v \n",
+		fmt.Printf(">> pc:%2d %v.%v%v \n",
 			frame.NextPC(), className, method.Name(), method.Descriptor())
 	}
 }

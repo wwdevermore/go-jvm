@@ -20,7 +20,7 @@ func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 	if resolvedMethod.IsStatic() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount())
+	ref := frame.OperandStack().GetRefFromTop(resolvedMethod.ArgSlotCount() - 1)
 	if ref == nil {
 		if methodRef.Name() == "println" {
 			stack := frame.OperandStack()
@@ -45,6 +45,7 @@ func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 				panic("println: " + methodRef.Descriptor())
 			}
 			stack.PopRef()
+			return
 		}
 		panic("java.lang.NullPointerException")
 	}

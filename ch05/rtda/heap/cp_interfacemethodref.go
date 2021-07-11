@@ -14,11 +14,15 @@ func newInterfaceMethodRef(cp *ConstantPool, refInfo *classfile.ConstantInterfac
 	return ref
 }
 
+func (receiver *InterfaceMethodRef) Name() string{
+	return receiver.name
+}
+
 func (receiver *InterfaceMethodRef) ResolvedInterfaceMethod() *Method {
 	if receiver.method == nil {
 		receiver.resolveInterfaceMethodRef()
 	}
-	return nil
+	return receiver.method
 }
 
 func (receiver *InterfaceMethodRef) resolveInterfaceMethodRef() {

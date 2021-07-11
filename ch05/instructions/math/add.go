@@ -24,5 +24,6 @@ func (self *LADD) Execute(frame *rtda.Frame) {
 	stack := frame.OperandStack()
 	value2 := stack.PopLong()
 	value1 := stack.PopLong()
-	stack.PushLong(value2 + value1)
+	result := value1 + value2
+	stack.PushLong(result)
 }

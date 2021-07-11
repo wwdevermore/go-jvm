@@ -81,12 +81,16 @@ func (receiver *Class) ConstantPool() *ConstantPool {
 	return receiver.constantPool
 }
 
+func (receiver *Class) IsSupper() bool {
+	return receiver.accessFlags&ACC_SUPER != 0
+}
+
 func (receiver *Class) IsInterface() bool {
-	return receiver.accessFlags == ACC_INTERFACE
+	return receiver.accessFlags&ACC_INTERFACE != 0
 }
 
 func (receiver *Class) IsAbstract() bool {
-	return receiver.accessFlags == ACC_ABSTRACT
+	return receiver.accessFlags&ACC_ABSTRACT != 0
 }
 
 func (receiver *Class) NewObject() *Object {
@@ -133,4 +137,8 @@ func (receiver *Class) getStaticMethod(name, descriptor string) *Method {
 
 func (receiver *Class) GetClinitMethod() *Method {
 	return receiver.getStaticMethod("<clinit>", "()V")
+}
+
+func (receiver *Class) SuperClass() *Class {
+	return receiver.superClass
 }

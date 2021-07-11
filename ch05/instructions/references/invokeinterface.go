@@ -20,12 +20,12 @@ func (receiver *INVOKE_INTERFACE) FetchOperands(reader *base.BytecodeReader) {
 
 func (receiver *INVOKE_INTERFACE) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	methodRef := cp.GetConstant(receiver.index).(*heap.MethodRef)
-	method := methodRef.ResolvedMethod()
+	methodRef := cp.GetConstant(receiver.index).(*heap.InterfaceMethodRef)
+	method := methodRef.ResolvedInterfaceMethod()
 	if method.IsStatic() || method.IsPrivate() {
 		panic("java.lang.IncompatibleClassChangeError")
 	}
-	ref := frame.OperandStack().GetRefFromTop(method.ArgSlotCount())
+	ref := frame.OperandStack().GetRefFromTop(method.ArgSlotCount() - 1)
 	if ref == nil {
 		panic("java.lang.NullPointerException")
 	}

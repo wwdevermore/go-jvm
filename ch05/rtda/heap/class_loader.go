@@ -64,7 +64,7 @@ func parseClass(data []byte) *Class {
 }
 
 func resolveSuperClass(class *Class) {
-	if class.superClassName != "java/lang/Object" {
+	if class.superClassName != "java/lang/Object" && class.superClassName != ""{
 		class.superClass = class.loader.LoadClass(class.superClassName)
 	}
 }

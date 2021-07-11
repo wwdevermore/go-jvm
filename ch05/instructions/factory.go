@@ -183,6 +183,8 @@ func NewInstruction(opcode byte) base.Instruction {
 		return iadd
 	case 0x61:
 		return ladd
+	case 0x65:
+		return lsub
 
 	case 0x70:
 		return irem
@@ -282,7 +284,19 @@ func NewInstruction(opcode byte) base.Instruction {
 		return tableswitch
 	case 0xab:
 		return lookupswitch
+	case 0xac:
+		return ireturn
+	case 0xad:
+		return lreturn
+	case 0xae:
+		return freturn
+	case 0xaf:
+		return dreturn
+	case 0xb0:
+		return areturn
 
+	case 0xb1:
+		return _return
 	case 0xb2:
 		return getstatic
 	case 0xb3:
@@ -295,8 +309,12 @@ func NewInstruction(opcode byte) base.Instruction {
 		return invoke_virtual
 	case 0xb7:
 		return invoke_special
+	case 0xb8:
+		return invoke_static
+	case 0xb9:
+		return invoke_interface
 	case 0xbb:
-		return new
+		return _new
 
 	case 0xc0:
 		return checkcast
@@ -450,6 +468,8 @@ var (
 	iadd = &IADD{}
 	ladd = &LADD{}
 
+	lsub = &LSUB{}
+
 	tableswitch  = &TABLE_SWITCH{}
 	lookupswitch = &LOOKUP_SWITCH{}
 	ldc          = &LDC{}
@@ -466,8 +486,17 @@ var (
 	ifnonnull = &IFNONNULL{}
 	goto_w    = &GOTO_W{}
 	wide      = &WIDE{}
-	new       = &NEW{}
+	_new       = &NEW{}
 
 	invoke_special = &INVOKE_SPECIAL{}
 	invoke_virtual = &INVOKE_VIRTUAL{}
+	invoke_static = &INVOKE_STATIC{}
+	invoke_interface = &INVOKE_INTERFACE{}
+
+	_return = &RETURN{}
+	ireturn = &IRETURN{}
+	lreturn = &LRETURN{}
+	dreturn = &DRETURN{}
+	freturn = &FRETURN{}
+	areturn = &ARETURN{}
 )
