@@ -53,6 +53,10 @@ func (self *OperandStack) PopLong() int64 {
 	return int64(high)<<32 | int64(low)
 }
 
+func (self *OperandStack) GetRefFromTop(count uint) *heap.Object {
+	return self.slots[count].ref
+}
+
 func (self *OperandStack) PushDouble(val float64) {
 	bits := math.Float64bits(val)
 	self.PushLong(int64(bits))

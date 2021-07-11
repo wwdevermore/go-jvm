@@ -54,7 +54,7 @@ func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 		ref.Class() != currentClass && !ref.Class().IsSubClassOf(currentClass) {
 		panic("java.lang.IllegalAceessError")
 	}
-	methodToBeInvoked := heap.lookupMethodInClass(ref.Class(), methodRef.Name(), methodRef.Descriptor())
+	methodToBeInvoked := heap.LookupMethodInClass(ref.Class(), methodRef.Name(), methodRef.Descriptor())
 	if methodToBeInvoked == nil || methodToBeInvoked.IsAbstract() {
 		panic("java.lang.AbstractMethodError")
 	}

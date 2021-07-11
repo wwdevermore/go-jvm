@@ -19,6 +19,7 @@ type Class struct {
 	instanceSlotCount uint
 	staticSlotCount   uint
 	staticVars        Slots
+	initStarted       bool
 }
 
 func newClass(cf *classfile.ClassFile) *Class {
@@ -31,6 +32,14 @@ func newClass(cf *classfile.ClassFile) *Class {
 	class.fields = newField(class, cf.Fields())
 	class.methods = newMethod(class, cf.Methods())
 	return class
+}
+
+func (receiver *Class) StartInit() {
+	receiver.initStarted = true
+}
+
+func (receiver *Class) InitStarted() bool {
+	return receiver.initStarted
 }
 
 func (receiver *Class) IsPublic() bool {
@@ -92,6 +101,10 @@ func (receiver *Class) IsSuperClassOf(other *Class) bool {
 	return receiver.superClass == other
 }
 
+func (receiver *Class) IsSubClassOf(other *Class) bool {
+	return other.superClass == receiver
+}
+
 func (receiver *Class) IsImplementsOf(other *Class) bool {
 	for _, iface := range receiver.interfaces {
 		if iface == other {
@@ -116,4 +129,8 @@ func (receiver *Class) getStaticMethod(name, descriptor string) *Method {
 		}
 	}
 	return nil
+}
+
+func (receiver *Class) GetClinitMethod() *Method {
+	return receiver.getStaticMethod("<clinit>", "()V")
 }

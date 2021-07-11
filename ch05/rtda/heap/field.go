@@ -49,12 +49,12 @@ func (receiver *Field) isAccessibleTo(other *Class) bool {
 	if receiver.IsPublic() {
 		return true
 	}
-	c := receiver.class
+	c := receiver.Class()
 	if receiver.IsProtected() {
-		return c == other || other.isSubClassOf(c) || c.getPackageName() == other.getPackageName()
+		return c == other || other.isSubClassOf(c) || c.GetPackageName() == other.GetPackageName()
 	}
 	if !receiver.IsPrivate() {
-		return c.getPackageName() == other.getPackageName()
+		return c.GetPackageName() == other.GetPackageName()
 	}
 	return other == c
 }

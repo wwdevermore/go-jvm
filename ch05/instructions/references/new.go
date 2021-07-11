@@ -10,10 +10,15 @@ type NEW struct {
 	base.Index16Instruction
 }
 
-func (self *NEW) Execute(frame *rtda.Frame) {
+func (receiver *NEW) Execute(frame *rtda.Frame) {
 	cp := frame.Method().Class().ConstantPool()
-	classRef := cp.GetConstant(self.Index).(*heap.ClassRef)
+	classRef := cp.GetConstant(receiver.Index).(*heap.ClassRef)
 	class := classRef.ResolveClass()
+	if !class.InitStarted() {
+		frame.RevertNextPC()
+		base.InitClass(frame.Thread(), frame.Method().Class())
+		return
+	}
 	if class.IsInterface() || class.IsAbstract() {
 		panic("java.lang.InstantiationError")
 	}

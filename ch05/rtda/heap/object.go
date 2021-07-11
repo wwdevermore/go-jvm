@@ -5,11 +5,15 @@ type Object struct {
 	fields Slots
 }
 
-func newObject(class *Class) *Object{
+func newObject(class *Class) *Object {
 	return &Object{
-		class: class,
+		class:  class,
 		fields: newSlots(class.instanceSlotCount),
 	}
+}
+
+func (receiver *Object) Class() *Class {
+	return receiver.class
 }
 
 func (receiver *Object) Fields() Slots {

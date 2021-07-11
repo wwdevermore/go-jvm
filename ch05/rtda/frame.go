@@ -20,6 +20,10 @@ func newFrame(thread *Thread, method *heap.Method) *Frame {
 	}
 }
 
+func (receiver *Frame) RevertNextPC() {
+	receiver.nextPC = receiver.thread.pc
+}
+
 func (receiver *Frame) LocalVars() LocalVars {
 	return receiver.localVars
 }
