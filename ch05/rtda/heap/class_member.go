@@ -26,3 +26,7 @@ func (receiver *ClassMember) Name() string {
 func (receiver *ClassMember) Descriptor() string {
 	return receiver.descriptor
 }
+
+func (receiver *ClassMember) IsNative() bool {
+	return receiver.accessFlags&ACC_NATIVE != 0
+}

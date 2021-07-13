@@ -68,6 +68,7 @@ func (self *IFGE) Execute(frame *rtda.Frame) {
 func (self *IFGT) Execute(frame *rtda.Frame) {
 	val := frame.OperandStack().PopInt()
 	if val > 0 {
+		//fmt.Printf("val: %d greater than 0, offset %d\n", val, self.Offset)
 		base.Branch(frame, self.Offset)
 	}
 }

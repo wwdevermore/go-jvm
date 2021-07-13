@@ -27,6 +27,7 @@ type LLOAD_3 struct {
 
 func _lload(frame *rtda.Frame, index uint) {
 	val := frame.LocalVars().GetLong(index)
+	//fmt.Printf("LLOAD index 0, val: %d\n", val)
 	frame.OperandStack().PushLong(val)
 }
 

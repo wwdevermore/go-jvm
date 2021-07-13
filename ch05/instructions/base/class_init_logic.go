@@ -12,7 +12,12 @@ func InitClass(thread *rtda.Thread, class *heap.Class) {
 }
 
 func initSuperClass(thread *rtda.Thread, class *heap.Class) {
-
+	if !class.IsInterface() {
+		superClass := class.SuperClass()
+		if superClass != nil && !superClass.InitStarted() {
+			InitClass(thread, superClass)
+		}
+	}
 }
 
 func scheduledClient(thread *rtda.Thread, class *heap.Class) {
