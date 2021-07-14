@@ -15,12 +15,13 @@ func main() {
 
 func startJVM() {
 	cp := classpath.Parse("C:\\Program Files\\Java\\jdk1.8.0_121\\jre\\", "")
-	className := "BbSortTEST"
+	className := "Main"
 	classLoader := heap.NewClassLoader(cp, true)
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetStaticMethod("main", "([Ljava/lang/String;)V")
 	if mainMethod != nil {
-		interpreter.Interpret(mainMethod, true)
+		args := make([]string, mainMethod.ArgSlotCount())
+		interpreter.Interpret(mainMethod, true, args)
 	} else {
 		fmt.Printf("Main method not found in class %s\n", "InvokeDemo.class")
 	}

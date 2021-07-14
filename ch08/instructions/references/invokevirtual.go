@@ -24,6 +24,7 @@ func (self *INVOKE_VIRTUAL) Execute(frame *rtda.Frame) {
 	if ref == nil {
 		if methodRef.Name() == "println" {
 			_println(frame.OperandStack(), methodRef.Descriptor())
+			return
 		}
 		panic("java.lang.NullPointerException")
 	}

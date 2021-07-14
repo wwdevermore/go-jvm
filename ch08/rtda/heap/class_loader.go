@@ -88,9 +88,9 @@ func resolveSuperClass(class *Class) {
 }
 
 func resolveInterfaces(class *Class) {
-	len := len(class.InterfaceNames())
-	if len > 0 {
-		class.interfaces = make([]*Class, len)
+	l := len(class.InterfaceNames())
+	if l > 0 {
+		class.interfaces = make([]*Class, l)
 		for i, interfaceName := range class.InterfaceNames() {
 			if class.loader.classMap[interfaceName] == nil {
 				class.interfaces[i] = class.loader.LoadClass(interfaceName)
