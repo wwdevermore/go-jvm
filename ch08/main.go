@@ -14,8 +14,8 @@ func main() {
 }
 
 func startJVM() {
-	cp := classpath.Parse("", "")
-	className := "FbTest"
+	cp := classpath.Parse("C:\\Program Files\\Java\\jdk1.8.0_121\\jre\\", "")
+	className := "BbSortTEST"
 	classLoader := heap.NewClassLoader(cp, true)
 	mainClass := classLoader.LoadClass(className)
 	mainMethod := mainClass.GetStaticMethod("main", "([Ljava/lang/String;)V")

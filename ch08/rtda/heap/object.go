@@ -23,3 +23,15 @@ func (receiver *Object) Fields() Slots {
 func (receiver *Object) IsInstanceOf(other *Class) bool {
 	return other.isAssignableFrom(receiver.class)
 }
+
+func (receiver *Object) SetRefVar(name string, descriptor string, ref *Object) {
+	field := receiver.class.getField(name, descriptor, false)
+	slots := receiver.data.(Slots)
+	slots.SetRef(field.slotId, ref)
+}
+
+func (receiver *Object) GetRefVar(name, descriptor string) *Object {
+	field := receiver.class.getField(name, descriptor, false)
+	slots := receiver.data.(Slots)
+	return slots.GetRef(field.slotId)
+}

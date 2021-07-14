@@ -3,6 +3,7 @@ package constants
 import (
 	"go-jvm/ch08/instructions/base"
 	"go-jvm/ch08/rtda"
+	"go-jvm/ch08/rtda/heap"
 )
 
 type LDC struct{ base.Index8Instruction }
@@ -34,6 +35,7 @@ func (receiver *LDC2_W) Execute(frame *rtda.Frame) {
 func _ldc(frame *rtda.Frame, index uint) {
 	stack := frame.OperandStack()
 	cp := frame.Method().Class().ConstantPool()
+	class := frame.Method().Class()
 	c := cp.GetConstant(index)
 	switch c.(type) {
 	case int32:
@@ -41,7 +43,9 @@ func _ldc(frame *rtda.Frame, index uint) {
 	case float32:
 		stack.PushFloat(c.(float32))
 
-	// case string:
+	case string:
+		internedStr := heap.JString(class.ClassLoader(), c.(string))
+		stack.PushRef(internedStr)
 	// case *heap.ClassRef:
 	default:
 		panic("todo: ldc !")

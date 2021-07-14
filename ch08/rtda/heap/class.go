@@ -168,3 +168,14 @@ func (receiver *Class) isJ1Cloneable() bool {
 func (receiver *Class) isJioSerializable() bool {
 	return receiver.name == "java/io/Serializable"
 }
+
+func (receiver *Class) getField(name string, descriptor string, isStatic bool) *Field {
+	for c := receiver; c != nil; c = c.superClass {
+		for _, field := range c.fields {
+			if field.IsStatic() == isStatic && field.name == name && field.descriptor == descriptor {
+				return field
+			}
+		}
+	}
+	return nil
+}

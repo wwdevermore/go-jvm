@@ -39,7 +39,7 @@ func (self *ClassLoader) loadArrayClass(name string) *Class {
 		superClass:  self.LoadClass("java/lang/Object"),
 		interfaces: []*Class{
 			self.LoadClass("java/lang/Cloneable"),
-			self.LoadClass("java/lang/Serializable"),
+			self.LoadClass("java/io/Serializable"),
 		},
 	}
 	self.classMap[name] = class
@@ -173,6 +173,8 @@ func initStaticFinalVar(class *Class, field *Field) {
 		val := cp.GetConstant(cpIndex).(float64)
 		vars.SetDouble(slotId, val)
 	case "Ljava.lang.String":
-		panic("unsupport static final field descriptor type")
+		goStr := cp.GetConstant(cpIndex).(string)
+		jStr := JString(class.ClassLoader(), goStr)
+		vars.SetRef(slotId, jStr)
 	}
 }
