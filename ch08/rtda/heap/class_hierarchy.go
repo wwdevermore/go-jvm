@@ -5,10 +5,32 @@ func (receiver *Class) isAssignableFrom(other *Class) bool {
 	if s == t {
 		return true
 	}
-	if !t.IsInterface() {
-		return s.isSubClassOf(t)
+	if !s.IsArray() {
+		if !s.IsInterface() {
+			if !t.IsInterface() {
+				return s.isSubClassOf(t)
+			} else {
+				return s.isImplements(t)
+			}
+		} else {
+			if !t.IsInterface() {
+				return t.isJ1Object()
+			} else {
+				return t.isSubInterfaceOf(s)
+			}
+		}
 	} else {
-		return s.isImplements(t)
+		if !t.IsArray() {
+			if !t.IsInterface() {
+				return t.isJ1Object()
+			} else {
+				return t.isJ1Cloneable() || t.isJioSerializable()
+			}
+		} else {
+			sc := s.ComponentClass()
+			tc := t.ComponentClass()
+			return sc == tc || tc.isAssignableFrom(sc)
+		}
 	}
 }
 

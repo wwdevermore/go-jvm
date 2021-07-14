@@ -142,3 +142,29 @@ func (receiver *Class) GetClinitMethod() *Method {
 func (receiver *Class) SuperClass() *Class {
 	return receiver.superClass
 }
+
+func (receiver *Class) ComponentClass() *Class {
+	componentClassName := getComponentClassName(receiver.name)
+	return receiver.loader.LoadClass(componentClassName)
+}
+
+func (receiver *Class) ClassLoader() *ClassLoader {
+	return receiver.loader
+}
+
+func (receiver *Class) ArrayClass() *Class {
+	arrayClassName := getArrayClassName(receiver.name)
+	return receiver.loader.loadArrayClass(arrayClassName)
+}
+
+func (receiver *Class) isJ1Object() bool {
+	return receiver.name == "java/lang/Object"
+}
+
+func (receiver *Class) isJ1Cloneable() bool {
+	return receiver.name == "java/lang/Cloneable"
+}
+
+func (receiver *Class) isJioSerializable() bool {
+	return receiver.name == "java/io/Serializable"
+}

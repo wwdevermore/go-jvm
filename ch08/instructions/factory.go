@@ -315,6 +315,12 @@ func NewInstruction(opcode byte) base.Instruction {
 		return invoke_interface
 	case 0xbb:
 		return _new
+	case 0xbc:
+		return newarray
+	case 0xbd:
+		return anewarray
+	case 0xbe:
+		return arraylength
 
 	case 0xc0:
 		return checkcast
@@ -322,6 +328,8 @@ func NewInstruction(opcode byte) base.Instruction {
 		return instanceof
 	case 0xc4:
 		return wide
+	case 0xc5:
+		return multinewarray
 	case 0xc6:
 		return ifnull
 	case 0xc7:
@@ -493,10 +501,14 @@ var (
 	invoke_static    = &INVOKE_STATIC{}
 	invoke_interface = &INVOKE_INTERFACE{}
 
-	_return = &RETURN{}
-	ireturn = &IRETURN{}
-	lreturn = &LRETURN{}
-	dreturn = &DRETURN{}
-	freturn = &FRETURN{}
-	areturn = &ARETURN{}
+	_return       = &RETURN{}
+	ireturn       = &IRETURN{}
+	lreturn       = &LRETURN{}
+	dreturn       = &DRETURN{}
+	freturn       = &FRETURN{}
+	areturn       = &ARETURN{}
+	newarray      = &NEW_ARRAY{}
+	multinewarray = &MULTI_ANEW_ARRAY{}
+	arraylength   = &ARRAY_LENGTH{}
+	anewarray     = &ANEW_ARRAY{}
 )
